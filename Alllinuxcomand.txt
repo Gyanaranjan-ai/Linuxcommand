@@ -1,0 +1,128 @@
+
+---
+
+1. **Find .log files older than 15 days (not >500MB):**
+   ```bash
+   find /var/log -name "*.log" -mtime +15 -size -500M
+   ```
+
+2. **Delete symbolic links in a directory:**
+   ```bash
+   find /path/to/directory -type l -exec rm {} +
+   ```
+
+3. **Locate files in `/home/user` not owned by current user:**
+   ```bash
+   find /home/user ! -user $(whoami)
+   ```
+
+4. **Find files with "config" in name, writeable by others in `/etc`:**
+   ```bash
+   find /etc -type f -name "*config*" -perm -002
+   ```
+
+5. **Search lines not containing "bash" in `/etc/passwd`:**
+   ```bash
+   grep -v "bash" /etc/passwd
+   ```
+
+6. **Search for a string recursively (exclude binary files):**
+   ```bash
+   grep -rl --exclude-binary "your_string" /path/to/directory
+   ```
+
+7. **Find word "error" with 3 surrounding lines:**
+   ```bash
+   grep -C 3 "error" filename
+   ```
+
+8. **Find "root" at line start in `/etc/passwd`:**
+   ```bash
+   grep "^root" /etc/passwd
+   ```
+
+9. **Create a compressed archive excluding `.mp4` files:**
+   ```bash
+   tar --exclude='*.mp4' -czvf user_archive.tar.gz -C /home user
+   ```
+
+10. **Extract only `file.txt` from an archive:**
+    ```bash
+    tar -xzvf archive.tar.gz file.txt
+    ```
+
+11. **Append `newfile.txt` to `.tar.gz` archive:**
+    - Extract, add `newfile.txt`, re-compress:
+      ```bash
+      mkdir temp_dir && tar -xzvf archive.tar.gz -C temp_dir
+      cp newfile.txt temp_dir/ && tar -czvf archive.tar.gz -C temp_dir . && rm -r temp_dir
+      ```
+
+12. **List contents of `.tar.gz` archive without extraction:**
+    ```bash
+    tar -tzvf archive.tar.gz
+    ```
+
+13. **List all running "java" processes (ID and name only):**
+    ```bash
+    ps aux | grep "java" | awk '{print $2, $11}'
+    ```
+
+14. **List files in `/var/log` containing "error":**
+    ```bash
+    ls /var/log | grep "error"
+    ```
+
+15. **Count lines with "failed" in a file:**
+    ```bash
+    grep -c "failed" filename
+    ```
+
+16. **Show last 20 lines containing "critical" in a log:**
+    ```bash
+    tail -n 20 logfile | grep "critical"
+    ```
+
+17. **Disk usage of `/home/user`, sorted by size (descending):**
+    ```bash
+    du -h /home/user | sort -hr
+    ```
+
+18. **Total disk usage of `/var`, excluding `/var/log`:**
+    ```bash
+    du -sh /var --exclude=/var/log
+    ```
+
+19. **Find disk usage of files >100MB:**
+    ```bash
+    find /path/to/directory -type f -size +100M -exec du -h {} +
+    ```
+
+20. **Disk usage of 10 largest directories in `/usr`:**
+    ```bash
+    du -h --max-depth=1 /usr | sort -hr | head -n 10
+    ```
+
+---
+
+### Extra Questions:
+
+1. **Memory Terms:**
+   - **Free Memory**: Unallocated RAM.
+   - **Used Memory**: Currently occupied RAM.
+   - **Available Memory**: Free memory + cached memory, reclaimable without swapping.
+
+2. **Fetching Server Details with Issues:**
+   - **CPU**: `top -b -n 1 | head -n 10`
+   - **Memory**: `free -h`
+   - **Disk**: `df -h`
+   - **Logs**: `grep -i 'error' /var/log/syslog`
+   - **Services**: `systemctl --failed`
+
+3. **Resolving Priority Issues Without Complete Info:**
+   - **Info Gathering**: Talk to stakeholders, check docs/logs, monitor alerts.
+   - **Impact Assessment**: Determine issue severity and scope.
+   - **Prioritize**: Use urgency/importance frameworks.
+   - **Consult**: Include experts, form task forces if needed.
+   - **Monitor & Document**: Test solutions, keep stakeholders updated.
+   - **Review**: Post-resolution analysis, update procedures.
